@@ -1,8 +1,8 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-const nextBtn = $('.btn-next');
-const prevBtn = $('.btn-prev');
+const nextBtn = $('.next-btn');
+const prevBtn = $('.prev-btn');
 const slideWrap = $('.slide-container');
 const slides = Array.from($$('.slide-img'));
 const dotsElement = $('.dots')
