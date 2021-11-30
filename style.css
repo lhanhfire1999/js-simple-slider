@@ -115,13 +115,3 @@ body {
 .dots input[name="dot"] {
   display: none;
 }
-
-/* @keyframes transOpacity {
-  from {
-    background-color: transparent;
-    opacity: 0.5;
-  }
-  to {
-    opacity: 1;
-  }
-} */
