@@ -20,7 +20,8 @@ body {
 /* Slider */
 .slider {
   position: relative;
-  min-width: 980px;
+  width: 980px;
+  max-width: 100%;
   margin: auto;
 
   border-radius: 16px;

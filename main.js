@@ -6,12 +6,21 @@ const prevBtn = $('.prev-btn');
 const slideWrap = $('.slide-container');
 const slides = Array.from($$('.slide-img'));
 const dotsElement = $('.dots')
-let dotList = null;
-
-const size = $('.slider').offsetWidth;
 const slideLength = slides.length - 1;
 
 let counter = 0;
+const state = {}
+Object.defineProperty(state, 'dotItems', {
+  get(){
+    return Array.from($$('.dot-item'));
+  }
+})
+
+Object.defineProperty(state, 'sizeSlider', {
+  get(){
+    return $('.slider').clientWidth
+  }
+})
 
 const dotHtml = slides.map((item, index) => {
   return `
@@ -19,24 +28,22 @@ const dotHtml = slides.map((item, index) => {
     <label for="radio-${index}"></label>
   `
 }).join('').trim();
-
 dotsElement.innerHTML = dotHtml;
-dotList = Array.from($$('.dot-item'));
 
-dotList.forEach(dot => {
+state.dotItems.forEach(dot => {
   if(Number(dot.dataset.index) === counter) {
     dot.checked = true;
   }
   dot.onclick = function () {
     counter = Number(this.dataset.index);
-    slideWrap.style.transform = 'translateX(' + (-size * counter) + 'px)';
+    slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * counter) + 'px)';
   };
 })
 
 nextBtn.onclick = () => {
   counter >= slideLength ? counter = 0 : counter++;
-  slideWrap.style.transform = 'translateX(' + (-size * counter) + 'px)';
-  dotList.forEach(dot => {
+  slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * counter) + 'px)';
+  state.dotItems.forEach(dot => {
     if(Number(dot.dataset.index) === counter) {
       dot.checked = true;
     }
@@ -45,17 +52,18 @@ nextBtn.onclick = () => {
 
 prevBtn.onclick = () => {
   counter <= 0  ? counter = slideLength : counter--;
-  slideWrap.style.transform = 'translateX(' + (-size * counter) + 'px)';
-  dotList.forEach(dot => {
+  slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * counter) + 'px)';
+  state.dotItems.forEach(dot => {
     if(Number(dot.dataset.index) === counter) {
       dot.checked = true;
     }
   })
 }
 
-// Auto slide 5s
+// Auto slide 7s
 setInterval(() => nextBtn.onclick(), 7000);
 
-
-
+window.onresize = () => {
+  nextBtn.onclick()
+}
 
