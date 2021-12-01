@@ -8,19 +8,15 @@ const slides = Array.from($$('.slide-img'));
 const dotsElement = $('.dots')
 const slideLength = slides.length - 1;
 
-let counter = 0;
-const state = {}
-Object.defineProperty(state, 'dotItems', {
-  get(){
+const state = {
+  counter: 0,
+  get dotItems(){
     return Array.from($$('.dot-item'));
+  },
+  get sizeSlider(){
+    return $('.slider').clientWidth;
   }
-})
-
-Object.defineProperty(state, 'sizeSlider', {
-  get(){
-    return $('.slider').clientWidth
-  }
-})
+}
 
 const dotHtml = slides.map((item, index) => {
   return `
@@ -31,30 +27,30 @@ const dotHtml = slides.map((item, index) => {
 dotsElement.innerHTML = dotHtml;
 
 state.dotItems.forEach(dot => {
-  if(Number(dot.dataset.index) === counter) {
+  if(Number(dot.dataset.index) === state.counter) {
     dot.checked = true;
   }
   dot.onclick = function () {
-    counter = Number(this.dataset.index);
-    slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * counter) + 'px)';
+    state.counter = Number(this.dataset.index);
+    slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * state.counter) + 'px)';
   };
 })
 
 nextBtn.onclick = () => {
-  counter >= slideLength ? counter = 0 : counter++;
-  slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * counter) + 'px)';
+  state.counter >= slideLength ? state.counter = 0 : state.counter++;
+  slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * state.counter) + 'px)';
   state.dotItems.forEach(dot => {
-    if(Number(dot.dataset.index) === counter) {
+    if(Number(dot.dataset.index) === state.counter) {
       dot.checked = true;
     }
   })
 }
 
 prevBtn.onclick = () => {
-  counter <= 0  ? counter = slideLength : counter--;
-  slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * counter) + 'px)';
+  state.counter <= 0  ? state.counter = slideLength : state.counter--;
+  slideWrap.style.transform = 'translateX(' + (-state.sizeSlider * state.counter) + 'px)';
   state.dotItems.forEach(dot => {
-    if(Number(dot.dataset.index) === counter) {
+    if(Number(dot.dataset.index) === state.counter) {
       dot.checked = true;
     }
   })
